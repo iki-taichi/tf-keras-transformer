@@ -1,0 +1,3 @@
+[submodule "src/tokenization"]
+	path = src/tokenization
+	url = https://github.com/iki-taichi/tokenization.git
