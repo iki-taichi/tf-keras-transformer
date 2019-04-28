@@ -48,6 +48,8 @@ def simple_json_serialize(obj):
 
 class FitEnvironment(object):
     
+    MODEL_NAME_TEMPLATE = 'model.{epoch:02d}.hdf5'
+
     def get_default_train_callbacks(self):
         callbacks = []
         
@@ -60,7 +62,7 @@ class FitEnvironment(object):
         callbacks.append(c)
         
         c = tf.keras.callbacks.ModelCheckpoint(
-                os.path.join(self.output_dir, 'model.{epoch:02d}.hdf5'),
+                os.path.join(self.output_dir, self.MODEL_NAME_TEMPLATE),
                 monitor='loss',
                 save_best_only=False,
                 save_weights_only=False,
@@ -247,7 +249,15 @@ class FitEnvironment(object):
                     initial_epoch=self.initial_epoch,
                     verbose=0,
                 )
-    
+            
+            # Save the last model
+            last_epoch = self.initial_epoch + self.num_epoch
+            last_model_path = os.path.join(
+                    self.output_dir, 
+                    self.MODEL_NAME_TEMPLATE.format(epoch=last_epoch)
+                )
+            wrapper.model.save(last_model_path, overwrite=True)
+        
         history_file_path = os.path.join(self.output_dir, 'epoch_history.json')
         with open(history_file_path, 'w') as f:
             json.dump(history.history, f, default=simple_json_serialize)
