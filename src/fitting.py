@@ -490,8 +490,3 @@ class FitGeneratorMaker(object):
             pass
 
 
-if __name__ == '__main__':
-    model_config = Config()
-    env = FitEnvironment(model_config=model_config)
-    env.run()
-
