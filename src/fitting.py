@@ -257,6 +257,7 @@ class FitEnvironment(object):
                     self.MODEL_NAME_TEMPLATE.format(epoch=last_epoch)
                 )
             wrapper.model.save(last_model_path, overwrite=True)
+            tf.logging.info('Epoch %05d: saving model to %s'%(last_epoch, last_model_path))
         
         history_file_path = os.path.join(self.output_dir, 'epoch_history.json')
         with open(history_file_path, 'w') as f:
