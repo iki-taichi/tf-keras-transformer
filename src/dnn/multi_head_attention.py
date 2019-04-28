@@ -7,7 +7,13 @@ Multi-head attention layer
 Based on https://github.com/CyberZHG/keras-multi-head
 Framework was changed from keras to tf.keras to compile TPU model using keras-support.
 
-ToDo: content
+_get_shape:
+I found that placeholders of shape dimension were not accepted except for the first dimension on TPU.
+So _get_shape was added to decide whether to take int value or place holder according to context.
+
+Group-Ids and Pos-Ids:
+To pack some samples into a batch of the fixed input length for efficiency, this layer uses Group-Ids and Pos-Ids.
+Masks are generated according to Group-Ids to calculate weights using only the same groups.
 """
 
 
